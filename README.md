@@ -42,7 +42,7 @@ blockchain, including mechanisms for ensuring data integrity, scalability and pr
       
 ### (Check the status of your node)
 
-      okp4d status 2>&1 | jq .SyncInfo
+      lavad status 2>&1 | jq .SyncInfo
       
 ### open ports and active the firewall
 
