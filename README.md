@@ -57,22 +57,22 @@ blockchain, including mechanisms for ensuring data integrity, scalability and pr
 
   + (Please save all keys on your notepad)
 
-        okp4d keys add $WALLET
+        lavad keys add $WALLET
    
   + To recover your old wallet use this command
  
-        okp4d keys add $WALLET --recover
+        lavad keys add $WALLET --recover
         
   + show keys 
   
-        okp4d keys list
+        lavad keys list
         
 ### Add wallet and valoper address and load variables into the system
 
-        OKP4_WALLET_ADDRESS=$(okp4d keys show $WALLET -a)
-        OKP4_VALOPER_ADDRESS=$(okp4d keys show $WALLET --bech val -a)
-        echo 'export OKP4_WALLET_ADDRESS='${OKP4_WALLET_ADDRESS} >> $HOME/.bash_profile
-        echo 'export OKP4_VALOPER_ADDRESS='${OKP4_VALOPER_ADDRESS} >> $HOME/.bash_profile
+        LAVA_WALLET_ADDRESS=$(lavad keys show $WALLET -a)
+        LAVA_VALOPER_ADDRESS=$(lavad keys show $WALLET --bech val -a)
+        echo 'export LAVA_WALLET_ADDRESS='${LAVA_WALLET_ADDRESS} >> $HOME/.bash_profile
+        echo 'export LAVA_VALOPER_ADDRESS='${LAVA_VALOPER_ADDRESS} >> $HOME/.bash_profile
         source $HOME/.bash_profile
         
    
@@ -84,16 +84,6 @@ blockchain, including mechanisms for ensuring data integrity, scalability and pr
   + replace <wallet> with your wallet name and <moniker> with your validator name
   
 
-         okp4d tx staking create-validator \
-         --amount 100000uknow \
-         --from WALLETNAME \
-         --commission-max-change-rate "0.01" \
-         --commission-max-rate "0.2" \
-         --commission-rate "0.05" \
-         --min-self-delegation "1" \
-         --pubkey  $(okp4d tendermint show-validator) \
-         --moniker NODENAME \
-         --chain-id okp4-nemeton
   
   
  # Snapchot optional 
