@@ -50,7 +50,7 @@ blockchain, including mechanisms for ensuring data integrity, scalability and pr
       sudo ufw default deny incoming
       sudo ufw allow ssh/tcp
       sudo ufw limit ssh/tcp
-      sudo ufw allow ${LAVA_PORT}656,${OKP4_PORT}660/tcp
+      sudo ufw allow ${LAVA_PORT}656,${LAVA_PORT}660/tcp
       sudo ufw enable
       
 ###  Create wallet
