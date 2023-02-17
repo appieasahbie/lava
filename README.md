@@ -88,16 +88,18 @@ blockchain, including mechanisms for ensuring data integrity, scalability and pr
   
  # Snapchot optional 
  
-    cp $HOME/.lava/data/priv_validator_state.json $HOME/.lava/priv_validator_state.json.backup
-    lavad tendermint unsafe-reset-all --home $HOME/.lava --keep-addr-book
+    
+     sudo systemctl stop lavad
 
-    SNAP_NAME=$(curl -s https://snapshot.lava.aknodes.net/snapshot-lava-01-24.tar.lz4 | egrep -o ">lava-testnet-1.*\.tar.lz4" | tr -d ">")
-    curl https://snapshot.lava.aknodes.net/snapshot-lava-01-24.tar.lz4${SNAP_NAME} | lz4 -dc - | tar -xf - -C $HOME/.lava
+     cp $HOME/.lava/data/priv_validator_state.json $HOME/.lava/priv_validator_state.json.backup 
 
-    mv $HOME/.lava/priv_validator_state.json.backup $HOME/.lava/data/priv_validator_state.json
+     lavad tendermint unsafe-reset-all --home $HOME/.lava --keep-addr-book 
+     curl https://snapshot.lava.aknodes.net/snapshot-lava-02-17.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.lava
 
-    sudo systemctl restart lavad
-    sudo journalctl -u lavad -f --no-hostname -o cat
+     mv $HOME/.lava/priv_validator_state.json.backup $HOME/.lava/data/priv_validator_state.json 
+
+     sudo systemctl start lavad
+     sudo journalctl -u lavad -f --no-hostname -o cat
  
 
 
