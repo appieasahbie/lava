@@ -1,5 +1,4 @@
 #!/bin/bash
-#!/bin/bash
 echo -e "\033[0;35m"
 echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
 echo "            ####         ##########  ##########  ####   #########";
@@ -16,182 +15,117 @@ echo -e "\e[0m"
 
 sleep 2
 
+# set vars
+if [ ! $NODENAME ]; then
+	read -p "Enter node name: " NODENAME
+	echo 'export NODENAME='$NODENAME >> $HOME/.bash_profile
+fi
+LAVA_PORT=20
+if [ ! $WALLET ]; then
+	echo "export WALLET="wallet"" >> $HOME/.bash_profile
+fi
+echo "export LAVA_CHAIN_ID="lava-testnet-1"" >> $HOME/.bash_profile
+echo "export LAVA_PORT="${LAVA_PORT}"" >> $HOME/.bash_profile
+source $HOME/.bash_profile
 
-PS3='Select an action: '
-options=(
-"Install Node"
-"Create wallet"
-"Check node logs"
-"Synchronization via SnapShot"
-"UPDATE"
-"Delete Node"
-"Exit")
-select opt in "${options[@]}"
-do
-case $opt in
+echo '================================================='
+echo -e "Your node name: \e[1m\e[32m$NODENAME\e[0m"
+echo -e "Your wallet name: \e[1m\e[32m$WALLET\e[0m"
+echo -e "Your chain name: \e[1m\e[32m$LAVA_CHAIN_ID\e[0m"
+echo -e "Your port: \e[1m\e[32m$LAVA_PORT\e[0m"
+echo '================================================='
+sleep 2
 
-"Install Node")
-echo "*********************"
-echo -e "\e[1m\e[35m		Lets's begin\e[0m"
-echo "*********************"
-echo -e "\e[1m\e[32m	Enter your Validator_Name:\e[0m"
-echo "_|-_|-_|-_|-_|-_|-_|"
-read Validator_Name
-echo "_|-_|-_|-_|-_|-_|-_|"
-echo export Validator_Name=${Validator_Name} >> $HOME/.bash_profile
-echo export CHAIN_ID="lava-testnet-1" >> $HOME/.bash_profile
-source ~/.bash_profile
-
-echo -e "\e[1m\e[32m1. Updating packages and dependencies--> \e[0m" && sleep 1
-#UPDATE APT
+echo -e "\e[1m\e[32m1. Updating packages... \e[0m" && sleep 1
+# update
 sudo apt update && sudo apt upgrade -y
-sudo apt install curl tar wget clang pkg-config libssl-dev libleveldb-dev jq build-essential bsdmainutils git make ncdu htop screen unzip bc fail2ban htop -y
 
-echo -e "        \e[1m\e[32m2. Installing GO--> \e[0m" && sleep 1
-#INSTALL GO
-ver="1.19" && \
-wget "https://golang.org/dl/go$ver.linux-amd64.tar.gz" && \
-sudo rm -rf /usr/local/go && \
-sudo tar -C /usr/local -xzf "go$ver.linux-amd64.tar.gz" && \
-rm "go$ver.linux-amd64.tar.gz" && \
-echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> $HOME/.bash_profile && \
-source $HOME/.bash_profile && \
-go version
+echo -e "\e[1m\e[32m2. Installing dependencies... \e[0m" && sleep 1
+# packages
+sudo apt install curl build-essential git wget jq make gcc tmux chrony -y
 
-echo -e "              \e[1m\e[32m3. Downloading and building binaries--> \e[0m" && sleep 1
-#INSTALL
+# install go
+if ! [ -x "$(command -v go)" ]; then
+  ver="1.18.2"
+  cd $HOME
+  wget "https://golang.org/dl/go$ver.linux-amd64.tar.gz"
+  sudo rm -rf /usr/local/go
+  sudo tar -C /usr/local -xzf "go$ver.linux-amd64.tar.gz"
+  rm "go$ver.linux-amd64.tar.gz"
+  echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> ~/.bash_profile
+  source ~/.bash_profile
+fi
+
+echo -e "\e[1m\e[32m3. Downloading and building binaries... \e[0m" && sleep 1
+# download and build binaries
 cd $HOME
-git clone https://github.com/lavanet/lava
+rm -rf $HOME/lava
+git clone https://github.com/lavanet/lava.git
 cd lava
-git fetch --all
 git checkout v0.5.2
 make install
 
-lavad init $Validator_Name --chain-id $CHAIN_ID
+# config
+lavad config node tcp://localhost:${LAVA_PORT}657
+lavad config keyring-backend test
+lavad config chain-id $LAVA_CHAIN_ID
 
-wget -O ~/.lava/config/genesis.json https://raw.githubusercontent.com/obajay/nodes-Guides/main/Lava_Network/genesis.json
-wget -O $HOME/.lava/config/addrbook.json "https://raw.githubusercontent.com/obajay/nodes-Guides/main/Lava_Network/addrbook.json"
+# init
+lavad init $MONIKER --chain-id $LAVA_CHAIN_ID
 
+# download genesis and addrbook
+curl https://raw.githubusercontent.com/K433QLtr6RA9ExEq/GHFkqmTzpdNLDd6T/main/testnet-1/genesis_json/genesis.json > ~/.lava/config/genesis.json
+curl https://files.itrocket.net/testnet/lava/addrbook.json > ~/.lava/config/addrbook.json
 
-echo -e "                     \e[1m\e[32m4. Node optimization and improvement--> \e[0m" && sleep 1
+# set peers and seeds
+SEEDS="3a445bfdbe2d0c8ee82461633aa3af31bc2b4dc0@prod-pnet-seed-node.lavanet.xyz:26656,e593c7a9ca61f5616119d6beb5bd8ef5dd28d62d@prod-pnet-seed-node2.lavanet.xyz:26656"
+PEERS=""
+sed -i -e "s/^seeds *=.*/seeds = \"$SEEDS\"/; s/^persistent_peers *=.*/persistent_peers = \"$PEERS\"/" $HOME/.lava/config/config.toml
 
-sed -i -e "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0ulava\"/" $HOME/.lava/config/app.toml
-sed -i -e "s/^filter_peers *=.*/filter_peers = \"true\"/" $HOME/.lava/config/config.toml
-external_address=$(wget -qO- eth0.me) 
-sed -i.bak -e "s/^external_address *=.*/external_address = \"$external_address:26656\"/" $HOME/.lava/config/config.toml
-peers="3a445bfdbe2d0c8ee82461633aa3af31bc2b4dc0@prod-pnet-seed-node.lavanet.xyz:26656,e593c7a9ca61f5616119d6beb5bd8ef5dd28d62d@prod-pnet-seed-node2.lavanet.xyz:26656"
-sed -i.bak -e "s/^persistent_peers *=.*/persistent_peers = \"$peers\"/" $HOME/.lava/config/config.toml
-seeds=""
-sed -i.bak -e "s/^seeds =.*/seeds = \"$seeds\"/" $HOME/.lava/config/config.toml
-sed -i 's/create_empty_blocks = .*/create_empty_blocks = true/g' ~/.lava/config/config.toml
-sed -i 's/create_empty_blocks_interval = ".*s"/create_empty_blocks_interval = "60s"/g' ~/.lava/config/config.toml
-sed -i 's/timeout_propose = ".*s"/timeout_propose = "60s"/g' ~/.lava/config/config.toml
-sed -i 's/timeout_commit = ".*s"/timeout_commit = "60s"/g' ~/.lava/config/config.toml
-sed -i 's/timeout_broadcast_tx_commit = ".*s"/timeout_broadcast_tx_commit = "601s"/g' ~/.lava/config/config.toml
-sed -i 's/max_num_inbound_peers =.*/max_num_inbound_peers = 50/g' $HOME/.lava/config/config.toml
-sed -i 's/max_num_outbound_peers =.*/max_num_outbound_peers = 50/g' $HOME/.lava/config/config.toml
+# set custom ports
+sed -i.bak -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:20658\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:20657\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:6260\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:20656\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":20660\"%" $HOME/.lava/config/config.toml && sed -i.bak -e "s%^address = \"0.0.0.0:9090\"%address = \"0.0.0.0:9290\"%; s%^address = \"0.0.0.0:9091\"%address = \"0.0.0.0:9291\"%; s%^address = \"tcp://0.0.0.0:1317\"%address = \"tcp://0.0.0.0:1517\"%" $HOME/.lava/config/app.toml && sed -i.bak -e "s%^node = \"tcp://localhost:26657\"%node = \"tcp://localhost:20657\"%" $HOME/.lava/config/client.toml 
 
+# config pruning
+pruning="custom"
+pruning_keep_recent="100"
+pruning_keep_every="0"
+pruning_interval="50"
+sed -i -e "s/^pruning *=.*/pruning = \"nothing\"/" $HOME/.lava/config/app.toml
+sed -i -e "s/^pruning-keep-recent *=.*/pruning-keep-recent = \"100\"/" $HOME/.lava/config/app.toml
+sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"50\"/" $HOME/.lava/config/app.toml
 
+# set minimum gas price and timeout commit
+sed -i 's/minimum-gas-prices =.*/minimum-gas-prices = "0.0ulava"/g' $HOME/.lava/config/app.toml
 
+# enable prometheus
+sed -i -e "s/prometheus = false/prometheus = true/" $HOME/.lava/config/config.toml
 
+# reset
+lavad tendermint unsafe-reset-all --home $HOME/.lava
 
-# pruning and indexer
-pruning="custom" && \
-pruning_keep_recent="100" && \
-pruning_keep_every="0" && \
-pruning_interval="10" && \
-sed -i -e "s/^pruning *=.*/pruning = \"$pruning\"/" ~/.lava/config/app.toml && \
-sed -i -e "s/^pruning-keep-recent *=.*/pruning-keep-recent = \"$pruning_keep_recent\"/" ~/.lava/config/app.toml && \
-sed -i -e "s/^pruning-keep-every *=.*/pruning-keep-every = \"$pruning_keep_every\"/" ~/.lava/config/app.toml && \
-sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"$pruning_interval\"/" ~/.lava/config/app.toml
-indexer="null" && \
-sed -i -e "s/^indexer *=.*/indexer = \"$indexer\"/" $HOME/.lava/config/config.toml
-
-
+echo -e "\e[1m\e[32m4. Starting service... \e[0m" && sleep 1
+# create service
 sudo tee /etc/systemd/system/lavad.service > /dev/null <<EOF
 [Unit]
 Description=lava
 After=network-online.target
+
 [Service]
 User=$USER
-ExecStart=$(which lavad) start
+ExecStart=$(which lavad) start --home $HOME/.lava
 Restart=on-failure
 RestartSec=3
 LimitNOFILE=65535
+
 [Install]
 WantedBy=multi-user.target
 EOF
 
-
 # start service
 sudo systemctl daemon-reload
 sudo systemctl enable lavad
-sudo systemctl restart lavad
+sudo systemctl restart lavad && sudo journalctl -u lavad -f
 
 echo '=============== SETUP FINISHED ==================='
-echo -e 'Congratulations:        \e[1m\e[32mSUCCESSFUL NODE INSTALLATION\e[0m'
-echo -e 'To check logs:        \e[1m\e[33mjournalctl -u lavad -f -o cat\e[0m'
-echo -e "To check sync status: \e[1m\e[35mcurl -s localhost:26657/status\e[0m"
-
-break
-;;
-"Create wallet")
-echo "_|-_|-_|-_|-_|-_|-_|"
-echo -e "      \e[1m\e[35m Your WalletName:\e[0m"
-echo "_|-_|-_|-_|-_|-_|-_|"
-read Wallet
-echo export Wallet=${Wallet} >> $HOME/.bash_profile
-source ~/.bash_profile
-lavad keys add $Wallet
-echo -e "      \e[1m\e[32m!!!!!!!!!SAVE!!!!!!!!!!!!!!!!SAVE YOUR MNEMONIC PHRASE!!!!!!!!!SAVE!!!!!!!!!!!!!!!!\e[0m'"
-
-break
-
-;;
-"UPDATE")
-cd $HOME/lava
-git fetch --all
-git checkout v0.5.2
-make install
-sudo systemctl restart lavad && sudo journalctl -u lavad -f -o cat
-
-break
-;;
-"Check node logs")
-sudo journalctl -u lavad -f -o cat
-
-break
-;;
-"Synchronization via SnapShot")
-sudo systemctl stop lavad
-
-cp $HOME/.lava/data/priv_validator_state.json $HOME/.lava/priv_validator_state.json.backup
-lavad tendermint unsafe-reset-all --home $HOME/.lava --keep-addr-book
-
-SNAP_NAME=$(curl -s https://snapshot.lava.aknodes.net/snapshot-lava-02-17.tar.lz4 | egrep -o ">lava-testnet-1.*\.tar.lz4" | tr -d ">")
-curl https://snapshot.lava.aknodes.net/snapshot-lava-02-17.tar.lz4${SNAP_NAME} | lz4 -dc - | tar -xf - -C $HOME/.lava
-
-mv $HOME/.lava/priv_validator_state.json.backup $HOME/.lava/data/priv_validator_state.json
-
-sudo systemctl restart lavad
-sudo journalctl -u lavad -f --no-hostname -o cat
-
-break
-;;
-"Delete Node")
-sudo systemctl stop lavad && \
-sudo systemctl disable lavad && \
-rm /etc/systemd/system/lavad.service && \
-sudo systemctl daemon-reload && \
-cd $HOME && \
-rm -rf GHFkqmTzpdNLDd6T && \
-rm -rf .lava && \
-rm -rf $(which lavad)
-
-break
-;;
-"Exit")
-exit
-esac
-done
-done
+echo -e 'To check logs: \e[1m\e[32mjournalctl -u lavad -f -o cat\e[0m'
+echo -e "To check sync status: \e[1m\e[32mcurl -s localhost:${LAVA_PORT}657/status | jq .result.sync_info\e[0m"
