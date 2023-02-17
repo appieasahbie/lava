@@ -109,14 +109,12 @@ sudo tee /etc/systemd/system/lavad.service > /dev/null <<EOF
 [Unit]
 Description=lava
 After=network-online.target
-
 [Service]
 User=$USER
 ExecStart=$(which lavad) start --home $HOME/.lava
 Restart=on-failure
 RestartSec=3
 LimitNOFILE=65535
-
 [Install]
 WantedBy=multi-user.target
 EOF
