@@ -13,20 +13,8 @@ echo -e '\e[36mTwitter:\e[39m' https://twitter.com/ABDERRAZAKAKRI3
 echo -e '\e[36mGithub: \e[39m' https://github.com/appieasahbie
 echo -e "\e[0m"
 
-sleep 1
+sleep 2
 
-# Variable
-SOURCE=lava
-WALLET=wallet
-BINARY=lavad
-CHAIN=lava-testnet-1
-FOLDER=.lava
-VERSION=v0.5.2
-DENOM=ulava
-COSMOVISOR=cosmovisor
-REPO=https://github.com/lavanet/lava.git
-GENESIS=https://snapshots.kjnodes.com/lava-testnet/genesis.json
-ADDRBOOK=https://snapshots.kjnodes.com/lava-testnet/addrbook.json
 PORT=37
 
 echo "export SOURCE=${SOURCE}" >> $HOME/.bash_profile
@@ -45,7 +33,7 @@ source $HOME/.bash_profile
 
 # Set Vars
 if [ ! $NODENAME ]; then
-        read -p "hello@nodexcapital:~# [ENTER YOUR NODENAME] > " NODENAME
+        read -p "hello:~# [ENTER YOUR NODENAME] > " NODENAME
         echo 'export NODENAME='$NODENAME >> $HOME/.bash_profile
 fi
 echo ""
