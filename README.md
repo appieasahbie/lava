@@ -155,7 +155,7 @@ blockchain, including mechanisms for ensuring data integrity, scalability and pr
 
 ### Check Service Logs
 
-   sudo journalctl -u lavad -f --no-hostname -o cat     
+      sudo journalctl -u lavad -f --no-hostname -o cat     
 
 ### Delete the node 
 
