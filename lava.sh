@@ -149,19 +149,6 @@ sudo systemctl daemon-reload
 sudo systemctl enable $BINARY
 sudo systemctl start $BINARY
 
-# Start snapshot
-sudo systemctl stop lavad
-
-cp $HOME/.lava/data/priv_validator_state.json $HOME/.lava/priv_validator_state.json.backup 
-
-lavad tendermint unsafe-reset-all --home $HOME/.lava --keep-addr-book 
-curl https://snapshot.lava.aknodes.net/snapshot-lava-02-17.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.lava
-
-mv $HOME/.lava/priv_validator_state.json.backup $HOME/.lava/data/priv_validator_state.json 
-
-sudo systemctl start lavad
-sudo journalctl -u lavad -f --no-hostname -o cat
-
 echo -e "\e[1m\e[35mSETUP FINISHED\e[0m"
 echo ""
 echo -e "CHECK RUNNING LOGS : \e[1m\e[35mjournalctl -fu $BINARY -o cat\e[0m"
