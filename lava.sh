@@ -55,12 +55,11 @@ eval $(echo 'export PATH=$PATH:$HOME/go/bin' | tee -a $HOME/.profile)
 
 # Get testnet version of LAVA
 cd $HOME
-rm -rf $SOURCE
-git clone $REPO
-cd $SOURCE
+rm -rf $HOME/lava
+git clone https://github.com/lavanet/lava.git
+cd lava
 git checkout v0.5.2
-make build
-go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.4.0
+make install
 
 # Prepare binaries for Cosmovisor
 mkdir -p $HOME/$FOLDER/$COSMOVISOR/genesis/bin
