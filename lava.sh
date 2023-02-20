@@ -46,8 +46,8 @@ lavad config keyring-backend test
 lavad config chain-id $CHAIN_ID
 lavad init "$NODE_MONIKER" --chain-id $CHAIN_ID
 
-curl -s https://raw.githubusercontent.com/K433QLtr6RA9ExEq/GHFkqmTzpdNLDd6T/main/testnet-1/genesis_json/genesis.json > $HOME/.lava/config/genesis.json
-curl -s https://snapshot.lava.aknodes.net/snapshot-lava-02-20.tar.lz4 > $HOME/.lava/config/addrbook.json
+curl https://raw.githubusercontent.com/K433QLtr6RA9ExEq/GHFkqmTzpdNLDd6T/main/testnet-1/genesis_json/genesis.json > ~/.lava/config/genesis.json
+curl https://files.itrocket.net/testnet/lava/addrbook.json > ~/.lava/config/addrbook.json
 
 SEEDS="3a445bfdbe2d0c8ee82461633aa3af31bc2b4dc0@prod-pnet-seed-node.lavanet.xyz:26656,e593c7a9ca61f5616119d6beb5bd8ef5dd28d62d@prod-pnet-seed-node2.lavanet.xyz:26656"
 PEERS=""
@@ -77,10 +77,12 @@ LimitNOFILE=10000
 WantedBy=multi-user.target
 EOF
 
-lavad tendermint unsafe-reset-all --home $HOME/.lava --keep-addr-book
+ cp $HOME/.lava/data/priv_validator_state.json $HOME/.lava/priv_validator_state.json.backup 
 
-SNAP_NAME=$(curl -s https://snapshot.lava.aknodes.net/snapshot-lava-02-20.tar.lz4 | egrep -o ">planq-testnet-1.*\.tar.lz4" | tr -d ">")
-curl https://snapshot.lava.aknodes.net/snapshot-lava-02-20.tar.lz4${SNAP_NAME} | lz4 -dc - | tar -xf - -C $HOME/.planq
+ lavad tendermint unsafe-reset-all --home $HOME/.lava --keep-addr-book 
+ curl https://snapshot.lava.aknodes.net/snapshot-lava-02-20.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.lava
+
+ mv $HOME/.lava/priv_validator_state.json.backup $HOME/.lava/data/priv_validator_state.json
 
 sudo systemctl daemon-reload
 sudo systemctl enable lavad
