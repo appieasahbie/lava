@@ -20,14 +20,14 @@ CHAIN_ID="lava-testnet-1"
 CHAIN_DENOM="ulava"
 BINARY_NAME="lavad"
 BINARY_VERSION_TAG="v0.5.2"
-CHEAT_SHEET="https://nodejumper.io/lava-testnet/cheat-sheet"
+CHEAT_SHEET="https://github.com/appieasahbie/lava"
 
-printLine
+
 echo -e "Node moniker:       ${CYAN}$NODE_MONIKER${NC}"
 echo -e "Chain id:           ${CYAN}$CHAIN_ID${NC}"
 echo -e "Chain demon:        ${CYAN}$CHAIN_DENOM${NC}"
 echo -e "Binary version tag: ${CYAN}$BINARY_VERSION_TAG${NC}"
-printLine
+
 sleep 1
 
 source <(curl -s https://raw.githubusercontent.com/nodejumper-org/cosmos-scripts/master/utils/dependencies_install.sh)
@@ -79,8 +79,8 @@ EOF
 
 lavad tendermint unsafe-reset-all --home $HOME/.lava --keep-addr-book
 
-SNAP_NAME=$(curl -s https://snapshots1-testnet.nodejumper.io/lava-testnet/info.json | jq -r .fileName)
-curl "https://snapshots1-testnet.nodejumper.io/lava-testnet/${SNAP_NAME}" | lz4 -dc - | tar -xf - -C "$HOME/.lava"
+SNAP_NAME=$(curl -s https://snapshot.lava.aknodes.net/snapshot-lava-02-20.tar.lz4 | jq -r .fileName)
+curl "https://snapshot.lava.aknodes.net/snapshot-lava-02-20.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.lava"
 
 sudo systemctl daemon-reload
 sudo systemctl enable lavad
