@@ -246,9 +246,7 @@ function main {
         1)
             check_logs
             ;;
-        2)
-            create_wallet
-            ;;    
+           
         3)
             state_sync
             ;;
