@@ -79,7 +79,6 @@ EOF
 
 lavad tendermint unsafe-reset-all --home $HOME/.lava --keep-addr-book
 
-SNAP_NAME=$(curl -s https://snapshot.lava.aknodes.net/snapshot-lava-02-20.tar.lz4 | jq -r .fileName)
 curl "https://snapshot.lava.aknodes.net/snapshot-lava-02-20.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.lava"
 
 sudo systemctl daemon-reload
