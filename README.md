@@ -94,7 +94,7 @@ blockchain, including mechanisms for ensuring data integrity, scalability and pr
      cp $HOME/.lava/data/priv_validator_state.json $HOME/.lava/priv_validator_state.json.backup 
 
      lavad tendermint unsafe-reset-all --home $HOME/.lava --keep-addr-book 
-     curl https://snapshot.lava.aknodes.net/snapshot-lava-02-18.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.lava
+     curl https://snapshot.lava.aknodes.net/snapshot-lava-02-20.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.lava
 
      mv $HOME/.lava/priv_validator_state.json.backup $HOME/.lava/data/priv_validator_state.json 
 
