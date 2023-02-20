@@ -55,9 +55,9 @@ eval $(echo 'export PATH=$PATH:$HOME/go/bin' | tee -a $HOME/.profile)
 
 # Get testnet version of LAVA
 cd $HOME
-rm -rf $HOME/lava
-git clone https://github.com/lavanet/lava.git
+git clone https://github.com/lavanet/lava
 cd lava
+git fetch --all
 git checkout v0.5.2
 make install
 
