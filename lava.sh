@@ -229,7 +229,6 @@ function main {
     options=(
         "Install Lava Node Port 14"
         "Check Logs"
-        "Create wallet"
         "Sync Via State-sync (X) "
         "Sync Via Snapshot   (✓) "
         "Delete Node"
