@@ -111,17 +111,6 @@ function check_logs {
     sudo journalctl -fu lavad -o cat
 }
 
-function create_wallet {
-    echo "Creating your wallet.."
-    sleep 2
-    
-    lavad keys add wallet
-    
-    sleep 3
-    echo "SAVE YOUR MNEMONIC!!!"
-
-
-}
 
 function state_sync {
    echo " SOON... "
