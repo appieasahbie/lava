@@ -92,12 +92,12 @@ blockchain, including mechanisms for ensuring data integrity, scalability and pr
  # Cheat Sheet
 ### Delegate to yourself
 
-      lavad tx staking delegate $(okp4d keys show wallet --bech val -a) 1000000uknow --from wallet --chain-id $LAVA_CHAIN_ID --gas-prices 0.1uknow --gas-adjustment 1.5 --gas auto -y 
+      lavad tx staking delegate $(lavad keys show wallet --bech val -a) 1000000uknow --from wallet --chain-id $LAVA_CHAIN_ID --gas-prices 0.1uknow --gas-adjustment 1.5 --gas auto -y 
       
  
  ### Redelegate
  
-      lavad tx staking redelegate $(okp4d keys show wallet --bech val -a) <TO_VALOPER_ADDRESS> 1000000uknow --from wallet --chain-id $LAVA_CHAIN_ID --gas-prices 0.1uknow --gas-adjustment 1.5 --gas auto -y 
+      lavad tx staking redelegate $(lavad keys show wallet --bech val -a) <TO_VALOPER_ADDRESS> 1000000uknow --from wallet --chain-id $LAVA_CHAIN_ID --gas-prices 0.1uknow --gas-adjustment 1.5 --gas auto -y 
      
  ### Get Validator Info
 
