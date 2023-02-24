@@ -76,7 +76,7 @@ blockchain, including mechanisms for ensuring data integrity, scalability and pr
         source $HOME/.bash_profile
         
    
-### Fund your wallet (to create validator) [link faucet](https://faucet.okp4.network)
+### Fund your wallet (to create validator) Discord channel #faucet
 
 
 ### Create validator (after recieving of tokens and must important sync is false)
