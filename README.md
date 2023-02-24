@@ -39,7 +39,7 @@ blockchain, including mechanisms for ensuring data integrity, scalability and pr
       
 ### (Check the status of your node)
 
-      lavad status 2>&1 | jq .SyncInfo
+      lavad status 2>&1 | jq .SyncInfo.catching_up
       
 ### open ports and active the firewall
 
