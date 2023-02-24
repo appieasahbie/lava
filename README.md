@@ -100,7 +100,7 @@ blockchain, including mechanisms for ensuring data integrity, scalability and pr
   
  # Snapchot Auto install with the script above 
  
-
+ # Cheat Sheet
 ### Delegate to yourself
 
       lavad tx staking delegate $(okp4d keys show wallet --bech val -a) 1000000uknow --from wallet --chain-id $LAVA_CHAIN_ID --gas-prices 0.1uknow --gas-adjustment 1.5 --gas auto -y 
