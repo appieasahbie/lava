@@ -83,8 +83,20 @@ blockchain, including mechanisms for ensuring data integrity, scalability and pr
 
   + replace <wallet> with your wallet name and <moniker> with your validator name
   
-
+      lavad tx staking create-validator \
+      --amount 1000000ulava \
+      --from $WALLET \
+      --commission-max-change-rate "0.01" \
+      --commission-max-rate "0.2" \
+      --commission-rate "0.05" \
+      --min-self-delegation "1" \
+      --pubkey  $(lavad tendermint show-validator) \
+      --moniker $MONIKER \
+      --chain-id $LAVA_CHAIN_ID
   
+
+ * 
+
   
  # Snapchot Auto install with the script above 
  
