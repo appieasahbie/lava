@@ -67,14 +67,6 @@ blockchain, including mechanisms for ensuring data integrity, scalability and pr
   
         lavad keys list
         
-### Add wallet and valoper address and load variables into the system
-
-        LAVA_WALLET_ADDRESS=$(lavad keys show $WALLET -a)
-        LAVA_VALOPER_ADDRESS=$(lavad keys show $WALLET --bech val -a)
-        echo 'export LAVA_WALLET_ADDRESS='${LAVA_WALLET_ADDRESS} >> $HOME/.bash_profile
-        echo 'export LAVA_VALOPER_ADDRESS='${LAVA_VALOPER_ADDRESS} >> $HOME/.bash_profile
-        source $HOME/.bash_profile
-        
    
 ### Fund your wallet (to create validator) Discord channel #faucet
 
