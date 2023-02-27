@@ -72,19 +72,19 @@ blockchain, including mechanisms for ensuring data integrity, scalability and pr
 
   + replace <wallet> with your wallet name and <moniker> with your validator name
   
-       lavad tx staking create-validator \
-       --amount=90000ulava \
-       --pubkey=$(lavad tendermint show-validator) \
-       --moniker="Yourvalidatorname" \
-       --chain-id=lava-testnet-1 \
-       --commission-rate=0.1 \
-       --commission-max-rate=0.2 \
-       --commission-max-change-rate=0.05 \
-       --min-self-delegation=1 \
-       --fees=10000ulava \
-       --from=Yourwalletname \
-       -y
-  
+         lavad tx staking create-validator \
+          --amount=90000ulava \
+          --pubkey=$(lavad tendermint show-validator) \
+          --moniker="Yourvalidatorname" \
+          --chain-id=lava-testnet-1 \
+          --commission-rate=0.1 \
+          --commission-max-rate=0.2 \
+          --commission-max-change-rate=0.05 \
+          --min-self-delegation=1 \
+          --fees=10000ulava \
+          --from=Yourwalletname \
+          -y
+   
 
  * 
 
@@ -144,6 +144,17 @@ blockchain, including mechanisms for ensuring data integrity, scalability and pr
 ### Check Service Logs
 
       sudo journalctl -u lavad -f --no-hostname -o cat     
+ 
+### Edit validator
+ 
+      lavad tx staking edit-validator \
+        --new-moniker="Appieasahbie | AkNodes" \
+        --identity=A7E4FBD93B7705E0 \
+        --details="Trust Validator" \
+        --chain-id=lava-testnet-1 \
+        --from=wallet \
+        --fees=5000ulava \
+        -y
 
 ### Delete the node 
 
