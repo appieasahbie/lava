@@ -36,7 +36,11 @@ blockchain, including mechanisms for ensuring data integrity, scalability and pr
 
     wget -O lava.sh https://raw.githubusercontent.com/appieasahbie/lava/main/lava.sh && chmod +x lava.sh && ./lava.sh
     
-      
+  
+### post installation 
+
+    source $HOME/.bash_profile
+  
 ### (Check the status of your node)
 
       lavad status 2>&1 | jq .SyncInfo.catching_up
