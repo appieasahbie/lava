@@ -164,9 +164,9 @@ blockchain, including mechanisms for ensuring data integrity, scalability and pr
 ### Edit validator
  
       lavad tx staking edit-validator \
-        --new-moniker="Appieasahbie | AkNodes" \
-        --identity=A7E4FBD93B7705E0 \
-        --details="Trust Validator" \
+        --new-moniker="XXXXXXXXXXXXXX" \
+        --identity=XXXXXXXXXXXX \
+        --details="xxxxxxxxxx" \
         --chain-id=lava-testnet-1 \
         --from=wallet \
         --fees=5000ulava \
@@ -181,6 +181,8 @@ blockchain, including mechanisms for ensuring data integrity, scalability and pr
     sudo rm $HOME/.lavad* -rf
     sudo rm $HOME/lavad -rf
     sed -i '/LAVA_/d' ~/.bash_profile
+    rm -rf lava 
+    rm -rf .lava
 
 
     
