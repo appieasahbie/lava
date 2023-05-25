@@ -93,7 +93,7 @@ blockchain, including mechanisms for ensuring data integrity, scalability and pr
  * 
 
   
- # Snapchot (optional)
+ # Snapchot (optional auto installed with the script)
  
       sudo systemctl stop lavad
 
