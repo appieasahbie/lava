@@ -19,7 +19,7 @@ read -r -p "Enter node moniker: " NODE_MONIKER
 CHAIN_ID="lava-testnet-1"
 CHAIN_DENOM="ulava"
 BINARY_NAME="lavad"
-BINARY_VERSION_TAG="v0.12.1"
+BINARY_VERSION_TAG="v0.15.1"
 CHEAT_SHEET="https://github.com/appieasahbie/lava"
 
 
@@ -38,7 +38,7 @@ cd || return
 rm -rf lava
 git clone https://github.com/lavanet/lava
 cd lava || return
-git checkout v0.12.1-hf
+git checkout v0.15.1
 make install
 lavad version
 
