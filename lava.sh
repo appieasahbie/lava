@@ -16,10 +16,10 @@ echo -e "\e[0m"
 
 read -r -p "Enter node moniker: " NODE_MONIKER
 
-CHAIN_ID="lava-testnet-1"
+CHAIN_ID="lava-testnet-2"
 CHAIN_DENOM="ulava"
 BINARY_NAME="lavad"
-BINARY_VERSION_TAG="v0.16.0"
+BINARY_VERSION_TAG="v0.21.1.2"
 CHEAT_SHEET="https://github.com/appieasahbie/lava"
 
 
@@ -38,7 +38,7 @@ cd || return
 rm -rf lava
 git clone https://github.com/lavanet/lava
 cd lava || return
-git checkout v0.16.0
+git checkout v0.21.1.2
 make install
 lavad version
 
