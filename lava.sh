@@ -49,17 +49,31 @@ lavad init "$NODE_MONIKER" --chain-id $CHAIN_ID
 curl -s https://raw.githubusercontent.com/lavanet/lava-config/main/testnet-2/genesis_json/genesis.json > $HOME/.lava/config/genesis.json
 curl -s https://snapshots-testnet.nodejumper.io/lava-testnet/addrbook.json > $HOME/.lava/config/addrbook.json
 
-SEEDS="3a445bfdbe2d0c8ee82461633aa3af31bc2b4dc0@prod-pnet-seed-node.lavanet.xyz:26656,e593c7a9ca61f5616119d6beb5bd8ef5dd28d62d@prod-pnet-seed-node2.lavanet.xyz:26656"
+SEEDS="3a445bfdbe2d0c8ee82461633aa3af31bc2b4dc0@testnet2-seed-node.lavanet.xyz:26656,e593c7a9ca61f5616119d6beb5bd8ef5dd28d62d@testnet2-seed-node2.lavanet.xyz:26656"
 PEERS=""
 sed -i 's|^seeds *=.*|seeds = "'$SEEDS'"|; s|^persistent_peers *=.*|persistent_peers = "'$PEERS'"|' $HOME/.lava/config/config.toml
 
 sed -i 's|^pruning *=.*|pruning = "custom"|g' $HOME/.lava/config/app.toml
 sed -i 's|^pruning-keep-recent  *=.*|pruning-keep-recent = "100"|g' $HOME/.lava/config/app.toml
 sed -i 's|^pruning-interval *=.*|pruning-interval = "10"|g' $HOME/.lava/config/app.toml
-sed -i 's|^snapshot-interval *=.*|snapshot-interval = 2000|g' $HOME/.lava/config/app.toml
+sed -i 's|^snapshot-interval *=.*|snapshot-interval = 0|g' $HOME/.lava/config/app.toml
 
 sed -i 's|^minimum-gas-prices *=.*|minimum-gas-prices = "0.025ulava"|g' $HOME/.lava/config/app.toml
 sed -i 's|^prometheus *=.*|prometheus = true|' $HOME/.lava/config/config.toml
+
+sed -i \
+  -e 's/timeout_commit = ".*"/timeout_commit = "30s"/g' \
+  -e 's/timeout_propose = ".*"/timeout_propose = "1s"/g' \
+  -e 's/timeout_precommit = ".*"/timeout_precommit = "1s"/g' \
+  -e 's/timeout_precommit_delta = ".*"/timeout_precommit_delta = "500ms"/g' \
+  -e 's/timeout_prevote = ".*"/timeout_prevote = "1s"/g' \
+  -e 's/timeout_prevote_delta = ".*"/timeout_prevote_delta = "500ms"/g' \
+  -e 's/timeout_propose_delta = ".*"/timeout_propose_delta = "500ms"/g' \
+  -e 's/skip_timeout_commit = ".*"/skip_timeout_commit = false/g' \
+  -e 's/seeds = ".*"/seeds = "3a445bfdbe2d0c8ee82461633aa3af31bc2b4dc0@testnet2-seed-node.lavanet.xyz:26656,e593c7a9ca61f5616119d6beb5bd8ef5dd28d62d@testnet2-seed-node2.lavanet.xyz:26656"/g' \
+  $HOME/.lava/config/config.toml
+
+sed -i -e 's/broadcast-mode = ".*"/broadcast-mode = "sync"/g' $HOME/.lava/config/config.toml
 
 printCyan "5. Starting service and synchronization..." && sleep 1
 
