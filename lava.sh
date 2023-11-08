@@ -19,7 +19,7 @@ read -r -p "Enter node moniker: " NODE_MONIKER
 CHAIN_ID="lava-testnet-2"
 CHAIN_DENOM="ulava"
 BINARY_NAME="lavad"
-BINARY_VERSION_TAG="v0.21.1.2"
+BINARY_VERSION_TAG="v0.26.1"
 CHEAT_SHEET="https://github.com/appieasahbie/lava"
 
 
@@ -34,20 +34,25 @@ source <(curl -s https://raw.githubusercontent.com/nodejumper-org/cosmos-scripts
 
 printCyan "4. Building binaries..." && sleep 1
 
+export LAVA_BINARY=lavad
+
 cd || return
 rm -rf lava
 git clone https://github.com/lavanet/lava
 cd lava || return
-git checkout v0.21.1.2
+git checkout v0.26.1
 make install
-lavad version
+
+lavad config keyring-backend test
+lavad config chain-id lava-testnet-2
+lavad init "$NODE_MONIKER" --chain-id lava-testnet-2
 
 lavad config keyring-backend test
 lavad config chain-id $CHAIN_ID
 lavad init "$NODE_MONIKER" --chain-id $CHAIN_ID
 
-curl -s https://raw.githubusercontent.com/lavanet/lava-config/main/testnet-2/genesis_json/genesis.json > $HOME/.lava/config/genesis.json
-curl -s https://snapshots-testnet.nodejumper.io/lava-testnet/addrbook.json > $HOME/.lava/config/addrbook.json
+curl -Ls https://snapshots.aknodes.net/snapshots/lava/genesis.json > $HOME/.lavad/config/genesis.json
+curl -Ls https://snapshots.aknodes.net/snapshots/lava/addrbook.json > $HOME/.lavad/config/genesis.json
 
 SEEDS="3a445bfdbe2d0c8ee82461633aa3af31bc2b4dc0@testnet2-seed-node.lavanet.xyz:26656,e593c7a9ca61f5616119d6beb5bd8ef5dd28d62d@testnet2-seed-node2.lavanet.xyz:26656"
 PEERS=""
@@ -94,7 +99,7 @@ EOF
  cp $HOME/.lava/data/priv_validator_state.json $HOME/.lava/priv_validator_state.json.backup 
 
  lavad tendermint unsafe-reset-all --home $HOME/.lava --keep-addr-book 
- curl https://snapshot.lava.aknodes.net/snapshot-lava.AKNodes.lz4 | lz4 -dc - | tar -xf - -C $HOME/.lava
+ curl https://snapshots.aknodes.net/snapshots/lava/snapshot-lava.AKNodes.lz4 | lz4 -dc - | tar -xf - -C $HOME/.lavad
 
  mv $HOME/.lava/priv_validator_state.json.backup $HOME/.lava/data/priv_validator_state.json
 
