@@ -100,7 +100,7 @@ blockchain, including mechanisms for ensuring data integrity, scalability and pr
       cp $HOME/.lava/data/priv_validator_state.json $HOME/.lava/priv_validator_state.json.backup 
 
       lavad tendermint unsafe-reset-all --home $HOME/.lava --keep-addr-book 
-      curl https://snapshot.lava.aknodes.net/snapshot-lava.AKNodes.lz4 | lz4 -dc - | tar -xf - -C $HOME/.lava
+      https://snapshots.aknodes.net/snapshots/lava/snapshot-lava.AKNodes.lz4 | lz4 -dc - | tar -xf - -C $HOME/.lava
 
       mv $HOME/.lava/priv_validator_state.json.backup $HOME/.lava/data/priv_validator_state.json 
 
@@ -118,7 +118,7 @@ blockchain, including mechanisms for ensuring data integrity, scalability and pr
 
 
       STATE_SYNC_RPC=https://rpc.lava.aknodes.net:443
-      STATE_SYNC_PEER=a7cad1d8aa2b5fa2070c826307cdaf09bbf114f6@212.227.233.231:36656
+      STATE_SYNC_PEER=3306e10f1635f71e1d93219a369f4907ec062ad5@167.235.14.83:17656
       LATEST_HEIGHT=$(curl -s $STATE_SYNC_RPC/block | jq -r .result.block.header.height)
       SYNC_BLOCK_HEIGHT=$(($LATEST_HEIGHT - 1000))
       SYNC_BLOCK_HASH=$(curl -s "$STATE_SYNC_RPC/block?height=$SYNC_BLOCK_HEIGHT" | jq -r .result.block_id.hash)
@@ -140,12 +140,12 @@ blockchain, including mechanisms for ensuring data integrity, scalability and pr
  # Cheat Sheet
 ### Delegate to yourself
 
-      lavad tx staking delegate $(lavad keys show wallet --bech val -a) 1000000ulava --from wallet --chain-id lava-testnet-1 --gas-prices 0.1ulava --gas-adjustment 1.5 --gas auto -y 
+      lavad tx staking delegate $(lavad keys show wallet --bech val -a) 1000000ulava --from wallet --chain-id lava-testnet-2 --gas-prices 0.1ulava --gas-adjustment 1.5 --gas auto -y 
       
  
  ### Redelegate
  
-      lavad tx staking redelegate $(lavad keys show wallet --bech val -a) 1000000ulava --from wallet --chain-id lava-testnet-1 --gas-prices 0.1ulava --gas-adjustment 1.5 --gas auto -y  
+      lavad tx staking redelegate $(lavad keys show wallet --bech val -a) 1000000ulava --from wallet --chain-id lava-testnet-2 --gas-prices 0.1ulava --gas-adjustment 1.5 --gas auto -y  
      
  ### Get Validator Info
 
@@ -197,7 +197,7 @@ blockchain, including mechanisms for ensuring data integrity, scalability and pr
         --new-moniker="XXXXXXXXXXXXXX" \
         --identity=XXXXXXXXXXXX \
         --details="xxxxxxxxxx" \
-        --chain-id=lava-testnet-1 \
+        --chain-id=lava-testnet-2 \
         --from=wallet \
         --fees=5000ulava \
         -y
