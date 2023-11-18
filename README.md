@@ -80,7 +80,7 @@ blockchain, including mechanisms for ensuring data integrity, scalability and pr
           --amount=90000ulava \
           --pubkey=$(lavad tendermint show-validator) \
           --moniker="Yourvalidatorname" \
-          --chain-id=lava-testnet-1 \
+          --chain-id=lava-testnet-2 \
           --commission-rate=0.1 \
           --commission-max-rate=0.2 \
           --commission-max-change-rate=0.05 \
