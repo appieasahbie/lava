@@ -51,8 +51,8 @@ lavad config keyring-backend test
 lavad config chain-id $CHAIN_ID
 lavad init "$NODE_MONIKER" --chain-id $CHAIN_ID
 
-curl -Ls https://snapshots.aknodes.net/snapshots/lava/genesis.json > $HOME/.lavad/config/genesis.json
-curl -Ls https://snapshots.aknodes.net/snapshots/lava/addrbook.json > $HOME/.lavad/config/genesis.json
+curl -Ls https://snapshots.aknodes.net/snapshots/lava/genesis.json > $HOME/.lava/config/genesis.json
+curl -Ls https://snapshots.aknodes.net/snapshots/lava/addrbook.json > $HOME/.lava/config/genesis.json
 
 SEEDS="3a445bfdbe2d0c8ee82461633aa3af31bc2b4dc0@testnet2-seed-node.lavanet.xyz:26656,e593c7a9ca61f5616119d6beb5bd8ef5dd28d62d@testnet2-seed-node2.lavanet.xyz:26656"
 PEERS=""
@@ -99,7 +99,7 @@ EOF
  cp $HOME/.lava/data/priv_validator_state.json $HOME/.lava/priv_validator_state.json.backup 
 
  lavad tendermint unsafe-reset-all --home $HOME/.lava --keep-addr-book 
- curl https://snapshots.aknodes.net/snapshots/lava/snapshot-lava.AKNodes.lz4 | lz4 -dc - | tar -xf - -C $HOME/.lavad
+ curl https://snapshots.aknodes.net/snapshots/lava/snapshot-lava.AKNodes.lz4 | lz4 -dc - | tar -xf - -C $HOME/.lava
 
  mv $HOME/.lava/priv_validator_state.json.backup $HOME/.lava/data/priv_validator_state.json
 
