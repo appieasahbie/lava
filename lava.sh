@@ -52,7 +52,7 @@ lavad config chain-id $CHAIN_ID
 lavad init "$NODE_MONIKER" --chain-id $CHAIN_ID
 
 curl -Ls https://snapshots.aknodes.net/snapshots/lava/genesis.json > $HOME/.lava/config/genesis.json
-curl -Ls https://snapshots.aknodes.net/snapshots/lava/addrbook.json > $HOME/.lava/config/genesis.json
+curl -Ls https://snapshots.aknodes.net/snapshots/lava/addrbook.json > $HOME/.lava/config/addrbook.json
 
 SEEDS="3a445bfdbe2d0c8ee82461633aa3af31bc2b4dc0@testnet2-seed-node.lavanet.xyz:26656,e593c7a9ca61f5616119d6beb5bd8ef5dd28d62d@testnet2-seed-node2.lavanet.xyz:26656"
 PEERS=""
