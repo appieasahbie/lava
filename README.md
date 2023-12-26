@@ -39,11 +39,11 @@ blockchain, including mechanisms for ensuring data integrity, scalability and pr
   
 ### post installation 
 
-    source $HOME/.bash_profile
+   source $HOME/.bash_profile
   
 ### (Check the status of your node)
 
-      lavad status 2>&1 | jq .SyncInfo.catching_up
+   lavad status
       
 ### open ports and active the firewall
 
