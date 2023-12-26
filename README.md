@@ -39,4 +39,4 @@ blockchain, including mechanisms for ensuring data integrity, scalability and pr
   
 ### Useful commands
 
-     https://services.aknodes.com/testnet/lava/useful-commands
+  https://services.aknodes.com/testnet/lava/useful-commands
