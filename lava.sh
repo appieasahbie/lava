@@ -19,7 +19,7 @@ read -r -p "Enter node moniker: " NODE_MONIKER
 CHAIN_ID="lava-testnet-2"
 CHAIN_DENOM="ulava"
 BINARY_NAME="lavad"
-BINARY_VERSION_TAG="v0.35.0"
+BINARY_VERSION_TAG="v2.0.0"
 CHEAT_SHEET="https://github.com/appieasahbie/lava"
 
 
@@ -40,7 +40,7 @@ cd || return
 rm -rf lava
 git clone https://github.com/lavanet/lava
 cd lava || return
-git checkout v0.35.0
+git checkout v2.0.0
 make install
 
 lavad config keyring-backend test
