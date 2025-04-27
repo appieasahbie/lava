@@ -10,7 +10,7 @@ echo "        ############     ####        ####        ####   ##";
 echo "       ####      ####    ####        ####        ####   #########";
 echo "      ####        ####   ####        ####        ####   #########";
 
-echo -e '\e[36mTwitter:\e[39m' https://twitter.com/ABDERRAZAKAKRI3
+echo -e '\e[36mTwitter:\e[39m' https://twitter.com/AKNodes
 echo -e '\e[36mGithub: \e[39m' https://github.com/appieasahbie
 echo -e "\e[0m"
 
@@ -19,7 +19,7 @@ read -r -p "Enter node moniker: " NODE_MONIKER
 CHAIN_ID="lava-testnet-2"
 CHAIN_DENOM="ulava"
 BINARY_NAME="lavad"
-BINARY_VERSION_TAG="v2.0.0"
+BINARY_VERSION_TAG="v5.3.0"
 CHEAT_SHEET="https://github.com/appieasahbie/lava"
 
 
@@ -40,7 +40,7 @@ cd || return
 rm -rf lava
 git clone https://github.com/lavanet/lava
 cd lava || return
-git checkout v2.0.0
+git checkout v5.3.0
 make install
 
 lavad config keyring-backend test
